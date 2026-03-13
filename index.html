@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Árbol de Amor Animado</title>
+    <meta name="author" content="Zero">
+    <meta name="copyright" content="Zero - Código libre no comercial">
+    <meta name="description" content="Árbol de Amor Animado: una sorpresa interactiva y romántica.">
+    <link rel="stylesheet" href="Css/style.css">
+</head>
+<body>
+
+  <!-- Pétalos flotantes (encima de todo) -->
+  <div id="floating-objects"></div>
+
+  <!-- Layout principal: texto izquierda | árbol derecha (en PC) -->
+  <div id="app-layout">
+
+    <!-- Columna texto -->
+    <div id="dedication-col">
+      <div class="dedication-text" id="dedication-text"></div>
+    </div>
+
+    <!-- Columna árbol -->
+    <div id="tree-col">
+      <div class="tree-container" id="tree-container"></div>
+    </div>
+
+  </div>
+
+  <!-- Cuenta regresiva fija abajo -->
+  <div class="countdown" id="countdown"></div>
+
+  <!-- Audio -->
+  <audio src="Music/bajo-el-agua.mp3" id="bg-music" preload="auto"></audio>
+
+  <script src="Js/script.js"></script>
+</body>
+</html>

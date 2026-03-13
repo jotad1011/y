@@ -1,0 +1,280 @@
+/* © Zero - Código libre no comercial */
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100vh;
+  background: #fcfcfc;
+  overflow-x: hidden;
+}
+
+/* ── LAYOUT PRINCIPAL: dos columnas en PC ── */
+#app-layout {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  width: 100%;
+  padding: 20px;
+  gap: 32px;
+}
+
+/* ── COLUMNA TEXTO ── */
+#dedication-col {
+  flex: 1 1 340px;
+  max-width: 540px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* ── COLUMNA ÁRBOL ── */
+#tree-col {
+  flex: 0 0 420px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── CONTENEDOR DEL ÁRBOL ── */
+.tree-container {
+  width: 420px;
+  height: 420px;
+  position: relative;
+  z-index: 2;
+  flex-shrink: 0;
+}
+
+.tree-container svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.tree-container svg path {
+  transition: fill-opacity 0.5s, stroke-dashoffset 1.2s;
+}
+
+/* En PC el árbol se mueve ligeramente al agrandarse */
+.tree-container svg.move-and-scale {
+  transition: transform 1.2s cubic-bezier(.77,0,.18,1);
+  transform: scale(1.1);
+}
+
+/* ── TEXTO DE DEDICATORIA ── */
+.dedication-text {
+  font-size: 1rem;
+  color: #050505;
+  font-family: 'Courier New', Courier, monospace;
+  white-space: pre-line;
+  line-height: 1.6;
+  z-index: 3;
+  opacity: 0;
+  pointer-events: none;
+  max-height: 80vh;
+  overflow-y: auto;
+  padding: 1.2em 1.4em;
+  background: rgba(255, 255, 255, 0.93);
+  border-radius: 0.8em;
+  box-shadow: 0 2px 16px #e6002611;
+  word-wrap: break-word;
+  scrollbar-width: thin;
+}
+
+.dedication-text.typing {
+  opacity: 1;
+  animation: fadeInText 0.6s;
+}
+
+@keyframes fadeInText {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ── FIRMA ── */
+.signature {
+  display: block;
+  margin-top: 1.5em;
+  font-family: 'Dancing Script', 'Pacifico', cursive, sans-serif;
+  font-size: 1.8rem;
+  color: #e60026;
+  opacity: 0;
+  z-index: 5;
+  white-space: pre-wrap;
+  pointer-events: none;
+  transition: opacity 0.7s;
+}
+
+.signature.visible {
+  opacity: 1;
+  animation: signature-draw 2.2s steps(24) forwards;
+}
+
+@keyframes signature-draw {
+  from { clip-path: inset(0 100% 0 0); }
+  to   { clip-path: inset(0 0 0 0); }
+}
+
+/* ── PÉTALOS FLOTANTES ── */
+#floating-objects {
+  position: fixed;
+  left: 0; top: 0;
+  width: 100vw; height: 100vh;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.floating-petal {
+  position: absolute;
+  will-change: transform, opacity;
+  opacity: 0.85;
+  pointer-events: none;
+  width: 24px; height: 32px;
+  background: radial-gradient(ellipse at 60% 30%, #ffd6e0 60%, #ff69b4 100%);
+  border-radius: 60% 40% 60% 40% / 60% 60% 40% 40%;
+}
+
+/* ── CUENTA REGRESIVA ── */
+.countdown {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  transform: translateX(-50%);
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1.2rem;
+  color: #333;
+  background: rgba(82, 128, 255, 0.533);
+  padding: 0.4em 1em;
+  border-radius: 1em;
+  z-index: 6;
+  box-shadow: 0 2px 8px #e6002611;
+  pointer-events: none;
+  letter-spacing: 0.05em;
+  min-width: 200px;
+  text-align: center;
+  transition: opacity 0.8s cubic-bezier(.77,0,.18,1), transform 0.8s cubic-bezier(.77,0,.18,1);
+  opacity: 0;
+  transform: translateX(-50%) translateY(30px);
+}
+
+.countdown.visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ── BOTÓN MÚSICA ── */
+#music-btn {
+  position: fixed;
+  bottom: 18px;
+  right: 18px;
+  z-index: 99;
+  background: rgba(255,255,255,0.90);
+  border: 1.5px solid #e6002633;
+  border-radius: 50%;
+  width: 42px;
+  height: 42px;
+  font-size: 1.3em;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 2px 8px #e6002622;
+  transition: background 0.2s, transform 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+#music-btn:hover {
+  background: #fff0f2;
+  transform: scale(1.1);
+}
+
+@media (max-width: 700px) {
+  #music-btn {
+    bottom: 70px; /* encima del countdown */
+    right: 14px;
+    width: 38px;
+    height: 38px;
+    font-size: 1.15em;
+  }
+}
+
+/* ── CORAZONES LATIENDO ── */
+.animated-heart {
+  transform-origin: center;
+  animation: beat 1s infinite;
+}
+
+@keyframes beat {
+  0%, 100% { transform: scale(1); }
+  20%       { transform: scale(1.1); }
+  40%       { transform: scale(0.95); }
+  60%       { transform: scale(1.08); }
+  80%       { transform: scale(1); }
+}
+
+/* ════════════════════════════════
+   MÓVIL: columna única, árbol abajo
+   ════════════════════════════════ */
+@media (max-width: 700px) {
+  #app-layout {
+    flex-direction: column;
+    align-items: center;
+    padding: 16px 10px 120px 10px; /* espacio abajo para countdown */
+    gap: 20px;
+    min-height: 100vh;
+    overflow-y: auto;
+  }
+
+  #dedication-col {
+    width: 100%;
+    max-width: 100%;
+    order: 1; /* texto primero */
+  }
+
+  #tree-col {
+    width: 100%;
+    flex: 0 0 auto;
+    order: 2; /* árbol después del texto */
+  }
+
+  .tree-container {
+    width: min(85vw, 320px);
+    height: min(85vw, 320px);
+  }
+
+  /* El árbol en móvil NO se mueve, solo escala un poco */
+  .tree-container svg.move-and-scale {
+    transform: scale(1.05);
+  }
+
+  .dedication-text {
+    font-size: 0.95rem;
+    max-height: none;    /* sin límite: el scroll es del body */
+    overflow-y: visible;
+    padding: 1em;
+  }
+
+  .signature {
+    font-size: 1.3rem;
+    text-align: center;
+  }
+
+  .countdown {
+    font-size: 0.9rem;
+    bottom: 14px;
+    min-width: 55vw;
+    max-width: 90vw;
+  }
+
+  .floating-petal {
+    width: 14px;
+    height: 18px;
+  }
+}
